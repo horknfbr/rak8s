@@ -16,7 +16,7 @@
 
 - name: set timezone to UTC
   timezone:
-    name: UTC
+    name: America/New_York
   register: timezone
 
 # - name: gpu mem check
@@ -31,16 +31,16 @@
 #   register: gpu_mem
 #   when: gpu_mem_check.stdout == ""
 
-- name: Enabling cgroup options at boot
-  copy:
-    src: cmdline.txt
-    dest: /boot/cmdline.txt
-    owner: root
-    group: root
-    mode: 0755
-  register: cmdline
-  tags:
-    - boot
+# - name: Enabling cgroup options at boot
+#   copy:
+#     src: cmdline.txt
+#     dest: /boot/cmdline.txt
+#     owner: root
+#     group: root
+#     mode: 0755
+#   register: cmdline
+#   tags:
+#     - boot
 
 # Doc: http://manpages.ubuntu.com/manpages/trusty/man8/dphys-swapfile.8.html
 - name: Disable Swap
@@ -66,4 +66,4 @@
 - name: Reboot
   reboot:
     reboot_timeout: 120
-  when: cmdline.changed or timezone.changed or hostname.changed or swap.changed
+  when: timezone.changed or hostname.changed or swap.changed
